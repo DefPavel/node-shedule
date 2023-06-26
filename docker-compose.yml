@@ -1,0 +1,54 @@
+version: "3.7"
+services:
+  node-server:
+    container_name: clinic-server
+    restart: unless-stopped
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.dev'
+    ports:
+      - '8080:3000'
+    links:
+      - db  
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - "clinic_network"
+
+  db:
+    image: mysql:5.7
+    container_name: clinic-db
+    ports:
+      - '3306:3306'
+    volumes: 
+        - './dump_db:/var/lib/mysql'
+    restart: always
+    environment:
+        MYSQL_USER: "coreroot_user"
+        MYSQL_PASSWORD: "coreroot_user"
+        MYSQL_ROOT_PASSWORD: "root"
+    networks:
+        - "clinic_network"
+
+  pma:
+        depends_on:
+            - db
+        links:
+            - db
+        image: 'phpmyadmin:5.0'
+        container_name: clinic-pma
+        restart: always
+        ports:
+            - '5050:80'
+        environment:
+            UPLOAD_LIMIT: 300M
+            PMA_HOST: clinic-db
+        networks:
+            - "clinic_network"
+    
+
+networks:
+  clinic_network:
+    external: true

@@ -1,0 +1,24 @@
+FROM node:18.16.0-alpine3.17
+
+# Создать директорию app
+WORKDIR /app
+
+# Установить nodemon для горячей перезагрузки
+RUN npm install -g nodemon
+# Установить knex для миграций и т.д.
+RUN npm install -g knex
+
+# Используется символ подстановки для копирования как package.json, так и package-lock.json
+COPY package*.json ./
+
+RUN npm install
+
+# Скопировать исходники приложения
+COPY src /app
+
+# Собрать статические файлы react/vue/angular
+# RUN npm run build
+
+EXPOSE 3000
+
+CMD [ "nodemon", "server.js" ]
