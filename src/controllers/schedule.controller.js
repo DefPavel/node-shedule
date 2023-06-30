@@ -15,7 +15,7 @@ export const getAllSchedules = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `Пациент:${iterator.personName}`,
+          title: iterator.personName,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -80,7 +80,7 @@ export const getScheduleByDoctor = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `Пациент:${iterator.personName}`,
+          title: iterator.personName,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
