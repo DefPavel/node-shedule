@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "clinic",
+            "script": "npm",
+            "args" : "start"
+        }
+    ]
+}
