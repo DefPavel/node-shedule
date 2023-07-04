@@ -72,6 +72,7 @@ export const createSchedules = async (req, res) => {
 // Создать заявку
 export const updateSchedules = async (req, res) => {
   const {
+    id = 0,
     title = 'Не указано',
     begin = '',
     time = '',
@@ -88,6 +89,7 @@ export const updateSchedules = async (req, res) => {
       if (!findDoctor) return res.status(500).send({ error: 'Доктор не найден' });
   
       await changeSchedule({
+        id: id,
         full_name: title,
         hire_date: `${begin} ${time}`,
         phone: phone,
