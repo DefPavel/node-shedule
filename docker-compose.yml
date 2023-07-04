@@ -23,7 +23,7 @@ services:
     ports:
       - '3306:3306'
     volumes: 
-        - './dump_db:/var/lib/mysql'
+        - './dump_db:/var/mysql'
     restart: always
     environment:
         MYSQL_USER: "coreroot_user"

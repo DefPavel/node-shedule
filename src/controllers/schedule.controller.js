@@ -22,7 +22,8 @@ export const getAllSchedules = async (_req, res) => {
           time: time,
           description: iterator.description,
           doctor: iterator.userName,
-          doctor_id: iterator.doctor_id
+          doctor_id: iterator.doctor_id,
+			 color: iterator.color,
         });
       }
     }
@@ -41,6 +42,7 @@ export const createSchedules = async (req, res) => {
     phone = 'Не указано',
     idDoctor = 2,
     description = '',
+	 color = null,
   } = req.body;
   try {
 
@@ -54,7 +56,8 @@ export const createSchedules = async (req, res) => {
         hire_date: `${begin} ${time}`,
         phone: phone,
         doctor_id: findDoctor.id,
-        description: description
+        description: description,
+		  bg_color: color
       });
     }
     else return res.status(500).send({error: 'Не указана дата или время'});
@@ -87,7 +90,8 @@ export const getScheduleByDoctor = async (_req, res) => {
           time: time,
           description: iterator.description,
           doctor: iterator.userName,
-          doctor_id: iterator.doctor_id
+          doctor_id: iterator.doctor_id,
+			 color: iterator.color
         });
       }
     }
@@ -96,3 +100,4 @@ export const getScheduleByDoctor = async (_req, res) => {
     res.status(500).send({ error: error });
   }
 };
+
