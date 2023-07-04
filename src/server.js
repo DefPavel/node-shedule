@@ -5,7 +5,7 @@ import { config } from "dotenv";
 // .env
 config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 // middleware
 app.use(json({ limit: "1mb" }));
 app.use(urlencoded({ limit: "1mb", extended: true }));

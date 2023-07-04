@@ -1,4 +1,4 @@
-import { getAll, createSchedule, getByDoctor } from '../models/schedule.js';
+import { getAll, createSchedule, changeSchedule, getByDoctor } from '../models/schedule.js';
 import { findUserById } from '../models/user.js';
 
 // Отобразить все заявки
@@ -40,14 +40,14 @@ export const createSchedules = async (req, res) => {
     begin = '',
     time = '',
     phone = 'Не указано',
-    idDoctor = 2,
+    doctor = 0,
     description = '',
 	 color = null,
   } = req.body;
   try {
 
     if (begin && time) {
-      const findDoctor = await findUserById(idDoctor);
+      const findDoctor = await findUserById(doctor);
 
       if (!findDoctor) return res.status(500).send({ error: 'Доктор не найден' });
   
@@ -60,9 +60,45 @@ export const createSchedules = async (req, res) => {
 		  bg_color: color
       });
     }
-    else return res.status(500).send({error: 'Не указана дата или время'});
+    else return res.status(500).send({ error: 'Не указана дата или время' });
 
     res.status(200).send({ status: 'created schedules' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error });
+  }
+};
+
+// Создать заявку
+export const updateSchedules = async (req, res) => {
+  const {
+    title = 'Не указано',
+    begin = '',
+    time = '',
+    phone = 'Не указано',
+    doctor = 0,
+    description = '',
+	  color = null,
+  } = req.body;
+  try {
+
+    if (begin && time) {
+      const findDoctor = await findUserById(doctor);
+
+      if (!findDoctor) return res.status(500).send({ error: 'Доктор не найден' });
+  
+      await changeSchedule({
+        full_name: title,
+        hire_date: `${begin} ${time}`,
+        phone: phone,
+        doctor_id: findDoctor.id,
+        description: description,
+		    bg_color: color
+      });
+    }
+    else return res.status(500).send({ error: 'Не указана дата или время' });
+
+    res.status(200).send({ status: 'change schedule' });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: error });
@@ -91,7 +127,7 @@ export const getScheduleByDoctor = async (_req, res) => {
           description: iterator.description,
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
-			 color: iterator.color
+			    color: iterator.color
         });
       }
     }

@@ -19,6 +19,6 @@ COPY src /app
 # Собрать статические файлы react/vue/angular
 # RUN npm run build
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD [ "nodemon", "server.js" ]

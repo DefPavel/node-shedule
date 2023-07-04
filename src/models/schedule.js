@@ -10,7 +10,7 @@ export const getAll = () => {
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		's.bg_color as color'
+		  's.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id');
@@ -25,7 +25,8 @@ export const getByDoctor = (id) => {
       's.hire_date',
       'user.full_name as userName',
       'user.id as doctor_id',
-      's.description'
+      's.description',
+		  's.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')
@@ -41,7 +42,8 @@ export const getByDoctors = (arrayId) => {
       's.hire_date',
       'user.full_name as userName',
       'user.id as doctor_id',
-      's.description'
+      's.description',
+		  's.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')
@@ -50,4 +52,8 @@ export const getByDoctors = (arrayId) => {
 
 export const createSchedule = (shedule) => {
   return clinicDB('shedule').insert(shedule);
+};
+
+export const changeSchedule = (shedule) => {
+  return clinicDB('shedule').update(shedule).where('id', shedule.id);
 };
