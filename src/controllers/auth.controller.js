@@ -4,7 +4,7 @@ import { findUserByUserName } from '../models/user.js';
 
 // Авторизация
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username = '', password = '' } = req.body;
 
   const user = await await findUserByUserName(username);
 

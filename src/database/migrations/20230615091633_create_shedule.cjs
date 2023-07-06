@@ -5,7 +5,6 @@ exports.up = function (knex) {
     t.string('full_name', 350).defaultTo('Не указано').comment('ФИО больного');
     t.string('phone', 20).defaultTo('Не указано').comment('Телефон больного');
     t.string('description', 500).comment('Описание');
-    t.string('bg_color', 20).comment('Цвет записи');
     t.integer('doctor_id')
       .references('users.id')
       .unsigned()

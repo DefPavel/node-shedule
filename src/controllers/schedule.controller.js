@@ -1,4 +1,4 @@
-import { getAll, createSchedule, changeSchedule, getByDoctor } from '../models/schedule.js';
+import { getAll, createSchedule, changeSchedule, getByDoctor, getByDoctors } from '../models/schedule.js';
 import { findUserById } from '../models/user.js';
 
 // Отобразить все заявки
@@ -23,7 +23,40 @@ export const getAllSchedules = async (_req, res) => {
           description: iterator.description,
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
-			 color: iterator.color,
+			    color: iterator.color,
+        });
+      }
+    }
+    res.status(200).send(allData);
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+};
+
+// Отобразить все заявки по массиву IdDoctors
+export const getScheduleByArrayIdDoctors = async (req, res) => {
+  try {
+    const { arrayId = [] } = req.body;
+    const schedules = await getByDoctors(arrayId);
+    const allData = [];
+
+    if (schedules.length > 0) {
+      for (const iterator of schedules) {
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+        allData.push({
+          id: iterator.id,
+          title: iterator.personName,
+          phone: iterator.personPhone,
+          start: new Date(iterator.hire_date),
+          end: new Date(iterator.hire_date),
+          time: time,
+          description: iterator.description,
+          doctor: iterator.userName,
+          doctor_id: iterator.doctor_id,
+			    color: iterator.color,
         });
       }
     }
@@ -42,7 +75,7 @@ export const createSchedules = async (req, res) => {
     phone = 'Не указано',
     doctor = 0,
     description = '',
-	 color = null,
+	  // color = null,
   } = req.body;
   try {
 
@@ -57,7 +90,7 @@ export const createSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-		  bg_color: color
+		    // bg_color: color
       });
     }
     else return res.status(500).send({ error: 'Не указана дата или время' });
@@ -79,7 +112,7 @@ export const updateSchedules = async (req, res) => {
     phone = 'Не указано',
     doctor = 0,
     description = '',
-	  color = null,
+	  // color = null,
   } = req.body;
   try {
 
@@ -95,7 +128,7 @@ export const updateSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-		    bg_color: color
+		    // bg_color: color
       });
     }
     else return res.status(500).send({ error: 'Не указана дата или время' });

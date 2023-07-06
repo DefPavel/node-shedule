@@ -11,7 +11,7 @@ import Bcrypt from 'bcryptjs';
 
 // Создать пользователя
 export const register = async (req, res) => {
-  const { username = '', password = '', phone, fullname, role } = req.body;
+  const { username = '', password = '', color = '', phone, fullname, role } = req.body;
   try {
     const checkRole = await findRoleById(role);
     // проверка роли
@@ -32,6 +32,7 @@ export const register = async (req, res) => {
       phone: phone || 'Не указано',
       full_name: fullname || 'Не указано',
       role_id: checkRole.id,
+      bg_color: color,    
     });
 
     res.status(200).send({ status: 'OK' });
@@ -53,7 +54,7 @@ export const deleteUsers = async (req, res) => {
   res.status(200).send({ status: 'OK' });
 };
 // Отобразить всех пользователей
-export const getUsers = async (req, res) => {
+export const getUsers = async (_req, res) => {
   try {
     const users = await getAllUsers();
     res.status(200).send(users);
@@ -63,7 +64,7 @@ export const getUsers = async (req, res) => {
 };
 
 // Отобразить всех пользователей
-export const getUsersByDoctor = async (req, res) => {
+export const getUsersByDoctor = async (_req, res) => {
   try {
     const users = await getAllByDoctors();
     res.status(200).send(users);

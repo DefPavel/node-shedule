@@ -10,7 +10,7 @@ export const getAll = () => {
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  's.bg_color as color'
+		  'user.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id');
@@ -26,7 +26,7 @@ export const getByDoctor = (id) => {
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  's.bg_color as color'
+		  'user.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')
@@ -43,7 +43,7 @@ export const getByDoctors = (arrayId) => {
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  's.bg_color as color'
+		  'user.bg_color as color'
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')

@@ -13,6 +13,7 @@ exports.seed = async function (knex) {
       full_name: 'Админов А.А.',
       phone: '+7 (959) 333-00-60',
       role_id: 1,
+      bg_color: null
     },
     {
       id: 2,
@@ -21,6 +22,7 @@ exports.seed = async function (knex) {
       full_name: 'Докторов А.А.',
       phone: '+7 (959) 444-00-60',
       role_id: 2,
+      bg_color: '#FF0000'
     },
   ]);
 };
