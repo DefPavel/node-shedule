@@ -15,7 +15,7 @@ export const getAllSchedules = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: iterator.personName,
+          title: `${iterator.userName} ${iterator.personName}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -48,7 +48,7 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: iterator.personName,
+          title: `${iterator.userName} ${iterator.personName}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -154,7 +154,7 @@ export const getScheduleByDoctor = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: iterator.personName,
+          title: `${iterator.userName} ${iterator.personName}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
