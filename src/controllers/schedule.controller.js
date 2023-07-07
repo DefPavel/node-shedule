@@ -36,7 +36,7 @@ export const getAllSchedules = async (_req, res) => {
 // Отобразить все заявки которые выбраны
 export const getAllSchedulesIsCheckedUser = async (_req, res) => {
   try {
-    let schedules = await getAll().where('users.is_cheked', 1);
+    let schedules = await getAll().where('is_cheked', true);
     if (schedules.length === 0) {
       schedules = await getAll();
     }
@@ -64,6 +64,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
     }
     res.status(200).send(allData);
   } catch (error) {
+	console.log(error);
     res.status(500).send({ error: error });
   }
 };
