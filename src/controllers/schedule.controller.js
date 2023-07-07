@@ -36,7 +36,10 @@ export const getAllSchedules = async (_req, res) => {
 // Отобразить все заявки которые выбраны
 export const getAllSchedulesIsCheckedUser = async (_req, res) => {
   try {
-    const schedules = await getAll().where('users.is_cheked', true);
+    let schedules = await getAll().where('users.is_cheked', 1);
+    if (schedules.length === 0) {
+      schedules = await getAll();
+    }
     const allData = [];
 
     if (schedules.length > 0) {

@@ -4,7 +4,8 @@ import {
   createSchedules,
   updateSchedules,
   getScheduleByDoctor,
-  getScheduleByArrayIdDoctors
+  getScheduleByArrayIdDoctors,
+  getAllSchedulesIsCheckedUser
 } from '../../controllers/schedule.controller.js';
 import authVerfity from '../../middleware/authVerfity.js';
 
@@ -16,6 +17,8 @@ router.post('/create',authVerfity, createSchedules);
 router.post('/update',authVerfity, updateSchedules);
 // Отобразить все заявки
 router.get('/get',authVerfity, getAllSchedules);
+// Отобразить Выбранные или все
+router.get('/getIsChecked',authVerfity, getAllSchedulesIsCheckedUser);
 // Отобразить заявки на определенного юзера
 router.get('/get/:idDoctor',authVerfity, getScheduleByDoctor);
 // Отобразить заявки только определенных юзеров
