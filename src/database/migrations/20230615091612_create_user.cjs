@@ -5,6 +5,7 @@ exports.up = function (knex) {
     t.string('username', 50).unique().index().comment('Логин');
     t.string('password', 100).comment('Пароль');
     t.string('bg_color', 20).comment('Цвет записи');
+    t.boolean('is_cheked').defaultTo(false).comment('Выбран из списка');
     t.string('full_name', 350)
       .defaultTo('Не указано')
       .comment('Инициалы пользователя');

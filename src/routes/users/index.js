@@ -7,6 +7,7 @@ import {
   register,
   deleteUsers,
   getUsersByDoctor,
+  updateCheckedUser,
 } from '../../controllers/user.controller.js';
 
 const router = Router();
@@ -20,6 +21,8 @@ router.get('/doctors', getUsersByDoctor);
 router.post('/register', authVerfity, register);
 // авторизация пользователя
 router.post('/login', login);
+// изменить статус
+router.post('/checked', updateCheckedUser);
 // удалить пользователя
 router.delete('/del/:id', authVerfity, deleteUsers);
 

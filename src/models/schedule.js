@@ -7,10 +7,13 @@ export const getAll = () => {
       's.phone as personPhone',
       's.full_name as personName',
       's.hire_date',
+      's.is_phone',
+      's.is_comming',
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  'user.bg_color as color'
+		  'user.bg_color as color',
+      'user.is_cheked',
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id');
@@ -23,10 +26,13 @@ export const getByDoctor = (id) => {
       's.phone as personPhone',
       's.full_name as personName',
       's.hire_date',
+      's.is_phone',
+      's.is_comming',
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  'user.bg_color as color'
+		  'user.bg_color as color',
+      'user.is_cheked',
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')
@@ -40,10 +46,13 @@ export const getByDoctors = (arrayId) => {
       's.phone as personPhone',
       's.full_name as personName',
       's.hire_date',
+      's.is_phone',
+      's.is_comming',
       'user.full_name as userName',
       'user.id as doctor_id',
       's.description',
-		  'user.bg_color as color'
+		  'user.bg_color as color',
+      'user.is_cheked',
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')

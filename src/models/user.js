@@ -12,6 +12,10 @@ export const createUser = (user) => {
   return clinicDB('users').insert(user);
 };
 
+export const updateStatusUser = ( id, status ) => {
+  return clinicDB('users').where('id', id).update('is_cheked', status);
+};
+
 export const getAllUsers = () => {
   return clinicDB
     .select(
@@ -20,7 +24,8 @@ export const getAllUsers = () => {
       'phone',
       'full_name',
       'users.id as key',
-      'users.role_id'
+      'users.role_id',
+      'users.bg_color as color',
     )
     .from('users')
     .join('roles as r', 'r.id', 'users.role_id');
@@ -34,7 +39,8 @@ export const getAllByDoctors = () => {
       'phone',
       'full_name',
       'users.id as key',
-      'users.role_id'
+      'users.role_id',
+      'users.bg_color as color',
     )
     .from('users')
     .join('roles as r', 'r.id', 'users.role_id')

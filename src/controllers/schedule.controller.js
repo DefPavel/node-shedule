@@ -33,6 +33,39 @@ export const getAllSchedules = async (_req, res) => {
   }
 };
 
+// Отобразить все заявки которые выбраны
+export const getAllSchedulesIsCheckedUser = async (_req, res) => {
+  try {
+    const schedules = await getAll().where('users.is_cheked', true);
+    const allData = [];
+
+    if (schedules.length > 0) {
+      for (const iterator of schedules) {
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
+        });
+        allData.push({
+          id: iterator.id,
+          title: `${iterator.userName} ${iterator.personName}`,
+          phone: iterator.personPhone,
+          start: new Date(iterator.hire_date),
+          end: new Date(iterator.hire_date),
+          time: time,
+          description: iterator.description,
+          doctor: iterator.userName,
+          doctor_id: iterator.doctor_id,
+			    color: iterator.color,
+        });
+      }
+    }
+    res.status(200).send(allData);
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+};
+
+
 // Отобразить все заявки по массиву IdDoctors
 export const getScheduleByArrayIdDoctors = async (req, res) => {
   try {

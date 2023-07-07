@@ -4,6 +4,7 @@ import {
   createUser,
   findUserByUserName,
   deleteUser,
+  updateStatusUser,
   getAllByDoctors,
 } from '../models/user.js';
 import { findRoleById } from '../models/role.js';
@@ -41,7 +42,7 @@ export const register = async (req, res) => {
     res.status(500).send({ error: error });
   }
 };
-
+// Удалить пользователя
 export const deleteUsers = async (req, res) => {
   const { id = 0 } = req.params;
 
@@ -62,6 +63,18 @@ export const getUsers = async (_req, res) => {
     res.status(500).send(error);
   }
 };
+
+// Отобразить всех пользователей
+export const updateCheckedUser = async (req, res) => {
+  try {
+    const { id = 0, status = false } = req.body;
+    await updateStatusUser(id, status)
+    res.status(200).send({ messge: 'checked value' });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 
 // Отобразить всех пользователей
 export const getUsersByDoctor = async (_req, res) => {
