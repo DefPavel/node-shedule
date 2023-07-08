@@ -56,7 +56,7 @@ export const getByDoctors = (arrayId) => {
     )
     .from('shedule as s')
     .join('users as user', 'user.id', 's.doctor_id')
-    .whereIn('doctor_id', arrayId);
+    .whereIn('user.id', arrayId);
 };
 
 export const createSchedule = (shedule) => {

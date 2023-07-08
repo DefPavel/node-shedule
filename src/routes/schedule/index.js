@@ -18,7 +18,7 @@ router.post('/update',authVerfity, updateSchedules);
 // Отобразить все заявки
 router.get('/get',authVerfity, getAllSchedules);
 // Отобразить Выбранные или все
-router.get('/getIsChecked',authVerfity, getAllSchedulesIsCheckedUser);
+router.get('/getIsChecked', getAllSchedulesIsCheckedUser);
 // Отобразить заявки на определенного юзера
 router.get('/get/:idDoctor',authVerfity, getScheduleByDoctor);
 // Отобразить заявки только определенных юзеров

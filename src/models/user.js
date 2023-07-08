@@ -16,6 +16,15 @@ export const updateStatusUser = ( id, status ) => {
   return clinicDB('users').where('id', id).update('is_cheked', status);
 };
 
+export const getAllUsersIsChecked = () => {
+  return clinicDB
+    .select(
+      'id'
+    )
+    .from('users')
+    .where('is_cheked', true)
+};
+
 export const getAllUsers = () => {
   return clinicDB
     .select(

@@ -8,19 +8,23 @@ exports.seed = async function (knex) {
   await knex('shedule').insert([
     {
       id: 1,
-      full_name: 'Пациентов В.В.',
+      full_name: 'В.В. Пациентов',
       phone: '+7 (922) 555-1234',
       doctor_id: 2,
-      hire_date: '2023-06-18T09:00:00',
-      description: 'Жалуется на головную боль'
+      hire_date: '2023-07-10T09:00:00',
+      description: 'Жалуется на головную боль',
+      is_phone: false,
+      is_comming: false,
     },
     {
       id: 2,
-      full_name: 'Пациентов А.А.',
+      full_name: 'А.А. Пациентов',
       phone: '+7 (922) 555-1234',
       doctor_id: 2,
-      hire_date: '2023-06-18T11:00:00',
-      description: 'Жалуется на головную боль'
+      hire_date: '2023-07-10T11:00:00',
+      description: 'Жалуется на головную боль',
+      is_phone: false,
+      is_comming: false,
     },
   ]);
 };
