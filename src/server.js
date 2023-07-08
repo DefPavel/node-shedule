@@ -1,4 +1,5 @@
 import express, { json, urlencoded } from 'express';
+import compression from 'compression';
 import cors from 'cors';
 import routes from './routes/index.js';
 import { config } from 'dotenv';
@@ -7,6 +8,7 @@ config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 // middleware
+app.use(compression());
 app.use(json({ limit: '1mb' }));
 app.use(urlencoded({ limit: '1mb', extended: true }));
 app.use(cors());

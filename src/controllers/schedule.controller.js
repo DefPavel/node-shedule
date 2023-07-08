@@ -23,7 +23,9 @@ export const getAllSchedules = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${
+            iterator.description
+          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'тел. без ответа'}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -57,7 +59,9 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${
+            iterator.description
+          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -66,6 +70,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
+          isPhone: iterator.is_phone ? true : false,
+          isComming: iterator.is_comming ? true : false,
         });
       }
     } else {
@@ -82,7 +88,9 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           );
           allData.push({
             id: iterator.id,
-            title: `${iterator.userName}; ${iterator.personName}`,
+            title: `${iterator.userName}; ${iterator.personName}; ${
+              iterator.description
+            }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
             phone: iterator.personPhone,
             start: new Date(iterator.hire_date),
             end: new Date(iterator.hire_date),
@@ -91,12 +99,13 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
             doctor: iterator.userName,
             doctor_id: iterator.doctor_id,
             color: iterator.color,
+            isPhone: iterator.is_phone ? true : false,
+            isComming: iterator.is_comming ? true : false,
           });
         }
     }
     res.status(200).send(allData);
   } catch (error) {
-    console.log(error);
     res.status(500).send({ error: error });
   }
 };
@@ -116,7 +125,9 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName} ${iterator.personName}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${
+            iterator.description
+          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -125,6 +136,8 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
+          isPhone: iterator.is_phone,
+          isComming: iterator.is_comming,
         });
       }
     }
@@ -143,7 +156,8 @@ export const createSchedules = async (req, res) => {
     phone = 'Не указано',
     doctor = 0,
     description = '',
-    // color = null,
+    isPhone = false,
+    isComming = false,
   } = req.body;
   try {
     if (begin && time) {
@@ -158,13 +172,14 @@ export const createSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-        // bg_color: color
+        is_phone: isPhone === true ? 1 : 0,
+        is_comming: isComming === true ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
     res.status(200).send({ status: 'created schedules' });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send({ error: error });
   }
 };
@@ -179,7 +194,8 @@ export const updateSchedules = async (req, res) => {
     phone = 'Не указано',
     doctor = 0,
     description = '',
-    // color = null,
+    isPhone = false,
+    isComming = false,
   } = req.body;
   try {
     if (begin && time) {
@@ -195,7 +211,8 @@ export const updateSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-        // bg_color: color
+        is_phone: isPhone === true ? 1 : 0,
+        is_comming: isComming === true ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
@@ -220,7 +237,9 @@ export const getScheduleByDoctor = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName} ${iterator.personName}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${
+            iterator.description
+          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -229,6 +248,8 @@ export const getScheduleByDoctor = async (_req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
+          isPhone: iterator.is_phone,
+          isComming: iterator.is_comming,
         });
       }
     }
@@ -240,15 +261,14 @@ export const getScheduleByDoctor = async (_req, res) => {
 
 // Удалить событие
 export const dropSheduleById = async (req, res) => {
-  try { 
+  try {
     const { id = 0 } = req.params;
-    const findShedule = await getById(id); 
+    const findShedule = await getById(id);
 
     if (!findShedule)
-        return res.status(500).send({ error: 'Не найдена запись' });
+      return res.status(500).send({ error: 'Не найдена запись' });
     await deleteById(findShedule.id);
     res.status(200).send({ status: 'drop schedule' });
-
   } catch (error) {
     res.status(500).send({ error: error });
   }
