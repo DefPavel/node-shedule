@@ -3,7 +3,7 @@ import authVerfity from '../../middleware/authVerfity.js';
 import { login } from '../../controllers/auth.controller.js';
 import {
   getUsers,
-  getById,
+  // getById,
   register,
   deleteUsers,
   getUsersByDoctor,
@@ -14,7 +14,7 @@ const router = Router();
 // показать всех пользователей
 router.get('/get', authVerfity, getUsers);
 // показать пользователя по id
-router.get('/get/:id', authVerfity, getById);
+// router.get('/get/:id', authVerfity, getById);
 // показать всех докторов
 router.get('/doctors', authVerfity, getUsersByDoctor);
 // регистрация пользователя

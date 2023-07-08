@@ -51,15 +51,18 @@ export const register = async (req, res) => {
 };
 // Удалить пользователя
 export const deleteUsers = async (req, res) => {
-  const { id = 0 } = req.params;
+  try {
+    
+    const { id = 0 } = req.params;
+    const user = await findUserById(id);
+    if (!user) return res.status(400).send({ error: 'Не найден id' });
+    await deleteUser(id); 
+    res.status(200).send({ status: 'OK' });
 
-  const user = await findUserById(id);
+  } catch (error) {
+     res.status(500).send(error);
+  }
 
-  if (!user) return res.status(400).send({ error: 'Не найден id' });
-
-  await deleteUser(id);
-
-  res.status(200).send({ status: 'OK' });
 };
 // Отобразить всех пользователей
 export const getUsers = async (_req, res) => {

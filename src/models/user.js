@@ -30,7 +30,7 @@ export const getAllUsers = () => {
       'users.id as key',
       'users.role_id',
       'users.bg_color as color',
-      'user.is_cheked'
+      'is_cheked as status'
     )
     .from('users')
     .join('roles as r', 'r.id', 'users.role_id');
