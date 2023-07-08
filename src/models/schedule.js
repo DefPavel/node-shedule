@@ -66,3 +66,11 @@ export const createSchedule = (shedule) => {
 export const changeSchedule = (shedule) => {
   return clinicDB('shedule').update(shedule).where('id', shedule.id);
 };
+
+export const getById = (id) => {
+  return clinicDB('shedule').where('id', id).first();
+};
+
+export const deleteById = (id) => {
+  return clinicDB('shedule').del().where('id', id);
+};

@@ -3,6 +3,7 @@ import {
   getAllSchedules,
   createSchedules,
   updateSchedules,
+  dropSheduleById,
   getScheduleByDoctor,
   getScheduleByArrayIdDoctors,
   getAllSchedulesIsCheckedUser,
@@ -15,6 +16,8 @@ const router = Router();
 router.post('/create', authVerfity, createSchedules);
 // Изменить заявку
 router.post('/update', authVerfity, updateSchedules);
+// Удалить заявку
+router.delete('/del/:id', authVerfity, dropSheduleById);
 // Отобразить все заявки
 router.get('/get', authVerfity, getAllSchedules);
 // Отобразить Выбранные или все

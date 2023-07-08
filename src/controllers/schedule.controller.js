@@ -4,6 +4,8 @@ import {
   changeSchedule,
   getByDoctor,
   getByDoctors,
+  getById,
+  deleteById,
 } from '../models/schedule.js';
 import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
@@ -231,6 +233,22 @@ export const getScheduleByDoctor = async (_req, res) => {
       }
     }
     res.status(200).send(allData);
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+};
+
+// Удалить событие
+export const dropSheduleById = async (req, res) => {
+  try { 
+    const { id = 0 } = req.params;
+    const findShedule = await getById(id); 
+
+    if (!findShedule)
+        return res.status(500).send({ error: 'Не найдена запись' });
+    await deleteById(findShedule.id);
+    res.status(200).send({ status: 'drop schedule' });
+
   } catch (error) {
     res.status(500).send({ error: error });
   }
