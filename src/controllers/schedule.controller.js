@@ -4,8 +4,8 @@ import {
   changeSchedule,
   getByDoctor,
   getByDoctors,
-} from "../models/schedule.js";
-import { findUserById, getAllUsersIsChecked } from "../models/user.js";
+} from '../models/schedule.js';
+import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
 // Отобразить все заявки
 export const getAllSchedules = async (_req, res) => {
@@ -15,9 +15,9 @@ export const getAllSchedules = async (_req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-        const time = new Date(iterator.hire_date).toLocaleTimeString("ru-RU", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
         });
         allData.push({
           id: iterator.id,
@@ -49,9 +49,9 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
         checkedDoctors.map((item) => item.id)
       );
       for (const iterator of sheduleByChecked) {
-        const time = new Date(iterator.hire_date).toLocaleTimeString("ru-RU", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
         });
         allData.push({
           id: iterator.id,
@@ -72,10 +72,10 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
       if (schedules.length > 0)
         for (const iterator of schedules) {
           const time = new Date(iterator.hire_date).toLocaleTimeString(
-            "ru-RU",
+            'ru-RU',
             {
-              hour: "2-digit",
-              minute: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
             }
           );
           allData.push({
@@ -108,9 +108,9 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-        const time = new Date(iterator.hire_date).toLocaleTimeString("ru-RU", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
         });
         allData.push({
           id: iterator.id,
@@ -135,12 +135,12 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
 // Создать заявку
 export const createSchedules = async (req, res) => {
   const {
-    title = "Не указано",
-    begin = "",
-    time = "",
-    phone = "Не указано",
+    title = 'Не указано',
+    begin = '',
+    time = '',
+    phone = 'Не указано',
     doctor = 0,
-    description = "",
+    description = '',
     // color = null,
   } = req.body;
   try {
@@ -148,7 +148,7 @@ export const createSchedules = async (req, res) => {
       const findDoctor = await findUserById(doctor);
 
       if (!findDoctor)
-        return res.status(500).send({ error: "Доктор не найден" });
+        return res.status(500).send({ error: 'Доктор не найден' });
 
       await createSchedule({
         full_name: title,
@@ -158,9 +158,9 @@ export const createSchedules = async (req, res) => {
         description: description,
         // bg_color: color
       });
-    } else return res.status(500).send({ error: "Не указана дата или время" });
+    } else return res.status(500).send({ error: 'Не указана дата или время' });
 
-    res.status(200).send({ status: "created schedules" });
+    res.status(200).send({ status: 'created schedules' });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: error });
@@ -171,12 +171,12 @@ export const createSchedules = async (req, res) => {
 export const updateSchedules = async (req, res) => {
   const {
     id = 0,
-    title = "Не указано",
-    begin = "",
-    time = "",
-    phone = "Не указано",
+    title = 'Не указано',
+    begin = '',
+    time = '',
+    phone = 'Не указано',
     doctor = 0,
-    description = "",
+    description = '',
     // color = null,
   } = req.body;
   try {
@@ -184,7 +184,7 @@ export const updateSchedules = async (req, res) => {
       const findDoctor = await findUserById(doctor);
 
       if (!findDoctor)
-        return res.status(500).send({ error: "Доктор не найден" });
+        return res.status(500).send({ error: 'Доктор не найден' });
 
       await changeSchedule({
         id: id,
@@ -195,9 +195,9 @@ export const updateSchedules = async (req, res) => {
         description: description,
         // bg_color: color
       });
-    } else return res.status(500).send({ error: "Не указана дата или время" });
+    } else return res.status(500).send({ error: 'Не указана дата или время' });
 
-    res.status(200).send({ status: "change schedule" });
+    res.status(200).send({ status: 'change schedule' });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: error });
@@ -212,9 +212,9 @@ export const getScheduleByDoctor = async (_req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-        const time = new Date(iterator.hire_date).toLocaleTimeString("ru-RU", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+          hour: '2-digit',
+          minute: '2-digit',
         });
         allData.push({
           id: iterator.id,

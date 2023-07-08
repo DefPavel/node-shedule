@@ -12,7 +12,14 @@ import Bcrypt from 'bcryptjs';
 
 // Создать пользователя
 export const register = async (req, res) => {
-  const { username = '', password = '', color = '', phone, fullname, role } = req.body;
+  const {
+    username = '',
+    password = '',
+    color = '',
+    phone,
+    fullname,
+    role,
+  } = req.body;
   try {
     const checkRole = await findRoleById(role);
     // проверка роли
@@ -33,7 +40,7 @@ export const register = async (req, res) => {
       phone: phone || 'Не указано',
       full_name: fullname || 'Не указано',
       role_id: checkRole.id,
-      bg_color: color,    
+      bg_color: color,
     });
 
     res.status(200).send({ status: 'OK' });
@@ -68,13 +75,12 @@ export const getUsers = async (_req, res) => {
 export const updateCheckedUser = async (req, res) => {
   try {
     const { id = 0, status = false } = req.body;
-    await updateStatusUser(id, status)
+    await updateStatusUser(id, status);
     res.status(200).send({ messge: 'checked value' });
   } catch (error) {
     res.status(500).send(error);
   }
 };
-
 
 // Отобразить всех пользователей
 export const getUsersByDoctor = async (_req, res) => {

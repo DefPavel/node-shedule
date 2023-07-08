@@ -1,7 +1,7 @@
 import { findRoleByName, getAll } from '../models/role.js';
 
 // Отобразить все роли
-export const getAllRoles = async (req, res) => {
+export const getAllRoles = async (_req, res) => {
   try {
     const roles = await getAll();
     res.status(200).send(roles);
@@ -18,7 +18,8 @@ export const createRole = async (req, res) => {
 
     const roleFind = await findRoleByName(name);
 
-    if (roleFind) return res.status(400).send({ error: 'Данная роль уже существует!' });
+    if (roleFind)
+      return res.status(400).send({ error: 'Данная роль уже существует!' });
 
     res.status(200).send({ status: 'Ok' });
   } catch (error) {

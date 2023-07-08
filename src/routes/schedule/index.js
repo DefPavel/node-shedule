@@ -5,23 +5,23 @@ import {
   updateSchedules,
   getScheduleByDoctor,
   getScheduleByArrayIdDoctors,
-  getAllSchedulesIsCheckedUser
+  getAllSchedulesIsCheckedUser,
 } from '../../controllers/schedule.controller.js';
 import authVerfity from '../../middleware/authVerfity.js';
 
 const router = Router();
 
 // Создать новую заявку
-router.post('/create',authVerfity, createSchedules);
+router.post('/create', authVerfity, createSchedules);
 // Изменить заявку
-router.post('/update',authVerfity, updateSchedules);
+router.post('/update', authVerfity, updateSchedules);
 // Отобразить все заявки
-router.get('/get',authVerfity, getAllSchedules);
+router.get('/get', authVerfity, getAllSchedules);
 // Отобразить Выбранные или все
-router.get('/getIsChecked', getAllSchedulesIsCheckedUser);
+router.get('/getIsChecked', authVerfity, getAllSchedulesIsCheckedUser);
 // Отобразить заявки на определенного юзера
-router.get('/get/:idDoctor',authVerfity, getScheduleByDoctor);
+router.get('/get/:idDoctor', authVerfity, getScheduleByDoctor);
 // Отобразить заявки только определенных юзеров
-router.post('/arrayDoctors',authVerfity, getScheduleByArrayIdDoctors);
+router.post('/arrayDoctors', authVerfity, getScheduleByArrayIdDoctors);
 
 export default router;

@@ -16,13 +16,13 @@ router.get('/get', authVerfity, getUsers);
 // показать пользователя по id
 router.get('/get/:id', authVerfity, getById);
 // показать всех докторов
-router.get('/doctors', getUsersByDoctor);
+router.get('/doctors', authVerfity, getUsersByDoctor);
 // регистрация пользователя
 router.post('/register', authVerfity, register);
 // авторизация пользователя
 router.post('/login', login);
 // изменить статус
-router.post('/checked', updateCheckedUser);
+router.post('/checked', authVerfity, updateCheckedUser);
 // удалить пользователя
 router.delete('/del/:id', authVerfity, deleteUsers);
 
