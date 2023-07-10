@@ -34,6 +34,8 @@ export const getAllSchedules = async (_req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
+          isPhone: iterator.is_phone === 1 ? true : false,
+          isComming: iterator.is_comming === 1 ? true : false,
         });
       }
     }
@@ -70,8 +72,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
-          isPhone: iterator.is_phone ? true : false,
-          isComming: iterator.is_comming ? true : false,
+          isPhone: iterator.is_phone === 1 ? true : false,
+          isComming: iterator.is_comming === 1 ? true : false,
         });
       }
     } else {
@@ -99,8 +101,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
             doctor: iterator.userName,
             doctor_id: iterator.doctor_id,
             color: iterator.color,
-            isPhone: iterator.is_phone ? true : false,
-            isComming: iterator.is_comming ? true : false,
+            isPhone: iterator.is_phone === 1 ? true : false,
+            isComming: iterator.is_comming === 1 ? true : false,
           });
         }
     }
@@ -136,8 +138,8 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
           doctor: iterator.userName,
           doctor_id: iterator.doctor_id,
           color: iterator.color,
-          isPhone: iterator.is_phone,
-          isComming: iterator.is_comming,
+          isPhone: iterator.is_phone === 1 ? true : false,
+          isComming: iterator.is_comming === 1 ? true : false,
         });
       }
     }
@@ -172,8 +174,8 @@ export const createSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-        is_phone: isPhone === true ? 1 : 0,
-        is_comming: isComming === true ? 1 : 0,
+        is_phone: isPhone === 'true' ? 1 : 0,
+        is_comming: isComming === 'true' ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
@@ -203,7 +205,6 @@ export const updateSchedules = async (req, res) => {
 
       if (!findDoctor)
         return res.status(500).send({ error: 'Доктор не найден' });
-
       await changeSchedule({
         id: id,
         full_name: title,
@@ -211,8 +212,8 @@ export const updateSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description,
-        is_phone: isPhone === true ? 1 : 0,
-        is_comming: isComming === true ? 1 : 0,
+        is_phone: isPhone === 'true' ? 1 : 0,
+        is_comming: isComming === 'true' ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
