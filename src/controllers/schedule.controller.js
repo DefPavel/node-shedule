@@ -169,11 +169,11 @@ export const createSchedules = async (req, res) => {
         return res.status(500).send({ error: 'Доктор не найден' });
 
       await createSchedule({
-        full_name: title,
+        full_name: title.trim(),
         hire_date: `${begin} ${time}`,
         phone: phone,
         doctor_id: findDoctor.id,
-        description: description,
+        description: description.trim(),
         is_phone: isPhone === 'true' ? 1 : 0,
         is_comming: isComming === 'true' ? 1 : 0,
       });
@@ -207,11 +207,11 @@ export const updateSchedules = async (req, res) => {
         return res.status(500).send({ error: 'Доктор не найден' });
       await changeSchedule({
         id: id,
-        full_name: title,
+        full_name: title.trim(),
         hire_date: `${begin} ${time}`,
         phone: phone,
         doctor_id: findDoctor.id,
-        description: description,
+        description: description.trim(),
         is_phone: isPhone === 'true' ? 1 : 0,
         is_comming: isComming === 'true' ? 1 : 0,
       });

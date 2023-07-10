@@ -25,7 +25,7 @@ export const register = async (req, res) => {
     // проверка роли
     if (!checkRole) return res.status(400).send({ error: 'Роль не найдена!' });
 
-    const checkLogin = await findUserByUserName(username);
+    const checkLogin = await findUserByUserName(username.trim());
     // Проверка логина
     if (checkLogin) return res.status(400).send({ error: 'Логин уже занят!' });
 
