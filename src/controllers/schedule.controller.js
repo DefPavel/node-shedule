@@ -18,8 +18,8 @@ export const getAllSchedules = async (_req, res) => {
     if (schedules.length > 0) {
       for (const iterator of schedules) {
 
-        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
-        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
 
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
@@ -60,8 +60,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
       );
       for (const iterator of sheduleByChecked) {
 
-        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
-        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -130,8 +130,8 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
-        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -245,8 +245,8 @@ export const getScheduleByDoctor = async (req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
-        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
