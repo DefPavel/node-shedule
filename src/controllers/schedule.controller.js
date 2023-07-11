@@ -258,7 +258,6 @@ export const getScheduleByDoctor = async (req, res) => {
     }
     res.status(200).send(allData);
   } catch (error) {
-	console.log(error)
     res.status(500).send({ error: error });
   }
 };
