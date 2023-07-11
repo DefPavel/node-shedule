@@ -17,6 +17,10 @@ export const getAllSchedules = async (_req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
+
+        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -25,7 +29,7 @@ export const getAllSchedules = async (_req, res) => {
           id: iterator.id,
           title: `${iterator.userName}; ${iterator.personName}; ${
             iterator.description
-          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'тел. без ответа'}`,
+          }; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -55,6 +59,9 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
         checkedDoctors.map((item) => item.id)
       );
       for (const iterator of sheduleByChecked) {
+
+        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -63,7 +70,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           id: iterator.id,
           title: `${iterator.userName}; ${iterator.personName}; ${
             iterator.description
-          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
+          }; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -81,6 +88,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
       const schedules = await getAll();
       if (schedules.length > 0)
         for (const iterator of schedules) {
+          const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
+          const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
           const time = new Date(iterator.hire_date).toLocaleTimeString(
             'ru-RU',
             {
@@ -92,7 +101,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
             id: iterator.id,
             title: `${iterator.userName}; ${iterator.personName}; ${
               iterator.description
-            }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
+            }; ${isPhone} ${isComming}`,
             phone: iterator.personPhone,
             start: new Date(iterator.hire_date),
             end: new Date(iterator.hire_date),
@@ -121,6 +130,8 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
+        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -129,7 +140,7 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
           id: iterator.id,
           title: `${iterator.userName}; ${iterator.personName}; ${
             iterator.description
-          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
+          }; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -232,6 +243,8 @@ export const getScheduleByDoctor = async (_req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
+        const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
+        const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
           hour: '2-digit',
           minute: '2-digit',
@@ -240,7 +253,7 @@ export const getScheduleByDoctor = async (_req, res) => {
           id: iterator.id,
           title: `${iterator.userName}; ${iterator.personName}; ${
             iterator.description
-          }; ${iterator.is_phone === 1 ? iterator.personPhone : 'Тел.: без ответа'}`,
+          }; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
