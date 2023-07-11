@@ -225,9 +225,11 @@ export const updateSchedules = async (req, res) => {
 };
 
 // Отобразить заявки только для определенного юзера
-export const getScheduleByDoctor = async (_req, res) => {
+export const getScheduleByDoctor = async (req, res) => {
+  const {idDoctor: id} = req.params;
   try {
-    const schedules = await getByDoctor();
+	if (!id) throw 'ID пользователя не указан!';
+    const schedules = await getByDoctor(id);
     const allData = [];
 
     if (schedules.length > 0) {
@@ -256,6 +258,7 @@ export const getScheduleByDoctor = async (_req, res) => {
     }
     res.status(200).send(allData);
   } catch (error) {
+	console.log(error)
     res.status(500).send({ error: error });
   }
 };
