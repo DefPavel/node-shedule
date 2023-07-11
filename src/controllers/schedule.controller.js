@@ -88,8 +88,8 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
       const schedules = await getAll();
       if (schedules.length > 0)
         for (const iterator of schedules) {
-          const isPhone = `${iterator.is_phone === 1 ? '&#x2611;' : '&#x2612;'}`;
-          const isComming = `${iterator.is_comming === 1 ? '&#x2611;' : '&#x2612;'}`;
+          const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
           const time = new Date(iterator.hire_date).toLocaleTimeString(
             'ru-RU',
             {
