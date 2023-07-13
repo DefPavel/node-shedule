@@ -6,6 +6,7 @@ import {
   getByDoctors,
   getById,
   deleteById,
+  checkedShedule,
 } from '../models/schedule.js';
 import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
@@ -175,9 +176,14 @@ export const createSchedules = async (req, res) => {
   try {
     if (begin && time) {
       const findDoctor = await findUserById(doctor);
+      const findShedule = await checkedShedule({idDoctor: doctor, dateTime: `${begin} ${time}` })
 
+      // проверка на существования доктора
       if (!findDoctor)
-        return res.status(500).send({ error: 'Доктор не найден' });
+        return res.status(500).send({ error: 'Доктор не найден!' });
+      // проверка на существование записи
+      if (findShedule)  
+        return res.status(500).send({ error: 'Запись на данное время уже есть!'});
 
       await createSchedule({
         full_name: title.trim(),
