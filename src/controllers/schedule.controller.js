@@ -7,6 +7,7 @@ import {
   getById,
   deleteById,
   checkedShedule,
+  checkedOnlyDateShedule,
 } from '../models/schedule.js';
 import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
@@ -18,7 +19,6 @@ export const getAllSchedules = async (_req, res) => {
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
-
         const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
         const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
 
@@ -28,9 +28,7 @@ export const getAllSchedules = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${
-            iterator.description
-          }; ${isPhone} ${isComming}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -60,7 +58,6 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
         checkedDoctors.map((item) => item.id)
       );
       for (const iterator of sheduleByChecked) {
-
         const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
         const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
         const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
@@ -69,9 +66,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${
-            iterator.description
-          }; ${isPhone} ${isComming}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -90,7 +85,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
       if (schedules.length > 0)
         for (const iterator of schedules) {
           const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
+          const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
           const time = new Date(iterator.hire_date).toLocaleTimeString(
             'ru-RU',
             {
@@ -100,9 +95,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           );
           allData.push({
             id: iterator.id,
-            title: `${iterator.userName}; ${iterator.personName}; ${
-              iterator.description
-            }; ${isPhone} ${isComming}`,
+            title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
             phone: iterator.personPhone,
             start: new Date(iterator.hire_date),
             end: new Date(iterator.hire_date),
@@ -139,9 +132,7 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${
-            iterator.description
-          }; ${isPhone} ${isComming}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),
@@ -162,16 +153,20 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
 };
 // записи на выбранный день и доктора
 export const getAllSchedulesByDateTime = async (req, res) => {
-  const {
-    doctor = 0,
-    dateTime = '',
-  } = req.body;
+  const { doctor = 0, dateTime = '' } = req.body;
   try {
-    const schedules = await checkedShedule({idDoctor: doctor, dateTime: dateTime });
-    res.status(200).send(schedules);
-
+    const date = new Date(dateTime).toISOString().split('T');
+    const dateFrom = `${ date[0] }T${ date[1] }`;
+    const dateTo = `${ date[0] }T18:00:00.000Z`;
+    
+    const schedules = await checkedOnlyDateShedule({
+      idDoctor: doctor,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+    });
+    res.status(200).send(schedules || []);
   } catch (error) {
-     res.status(500).send({ error: error });
+    res.status(500).send({ error: error });
   }
 };
 
@@ -190,14 +185,19 @@ export const createSchedules = async (req, res) => {
   try {
     if (begin && time) {
       const findDoctor = await findUserById(doctor);
-      const findShedule = await checkedShedule({idDoctor: doctor, dateTime: `${begin} ${time}` }).first();
+      const findShedule = await checkedShedule({
+        idDoctor: doctor,
+        dateTime: `${begin} ${time}`,
+      }).first();
 
       // проверка на существования доктора
       if (!findDoctor)
         return res.status(500).send({ error: 'Доктор не найден!' });
       // проверка на существование записи
-      if (findShedule)  
-        return res.status(500).send({ error: 'Запись на данное время уже есть!'});
+      if (findShedule)
+        return res
+          .status(500)
+          .send({ error: 'Запись на данное время уже есть!' });
 
       await createSchedule({
         full_name: title.trim(),
@@ -257,9 +257,9 @@ export const updateSchedules = async (req, res) => {
 
 // Отобразить заявки только для определенного юзера
 export const getScheduleByDoctor = async (req, res) => {
-  const {idDoctor: id} = req.params;
+  const { idDoctor: id } = req.params;
   try {
-	if (!id) throw 'ID пользователя не указан!';
+    if (!id) throw 'ID пользователя не указан!';
     const schedules = await getByDoctor(id);
     const allData = [];
 
@@ -273,9 +273,7 @@ export const getScheduleByDoctor = async (req, res) => {
         });
         allData.push({
           id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${
-            iterator.description
-          }; ${isPhone} ${isComming}`,
+          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
           phone: iterator.personPhone,
           start: new Date(iterator.hire_date),
           end: new Date(iterator.hire_date),

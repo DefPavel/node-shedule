@@ -64,6 +64,14 @@ export const checkedShedule = ({ idDoctor, dateTime }) => {
   .where('hire_date', dateTime)
   .where('doctor_id', idDoctor)
 }
+
+export const checkedOnlyDateShedule = ({ idDoctor, dateFrom, dateTo }) => {
+  return clinicDB('shedule')
+  .where('hire_date', '>=', dateFrom)
+  .where('hire_date', '<', dateTo)
+  .where('doctor_id', idDoctor)
+}
+
 export const createSchedule = (shedule) => {
   return clinicDB('shedule').insert(shedule);
 };
