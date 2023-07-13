@@ -63,7 +63,6 @@ export const checkedShedule = ({ idDoctor, dateTime }) => {
   return clinicDB('shedule')
   .where('hire_date', dateTime)
   .where('doctor_id', idDoctor)
-  .first();
 }
 export const createSchedule = (shedule) => {
   return clinicDB('shedule').insert(shedule);

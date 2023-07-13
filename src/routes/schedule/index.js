@@ -7,6 +7,7 @@ import {
   getScheduleByDoctor,
   getScheduleByArrayIdDoctors,
   getAllSchedulesIsCheckedUser,
+  getAllSchedulesByDateTime,
 } from '../../controllers/schedule.controller.js';
 import authVerfity from '../../middleware/authVerfity.js';
 
@@ -26,5 +27,7 @@ router.get('/getIsChecked', authVerfity, getAllSchedulesIsCheckedUser);
 router.get('/get/:idDoctor', authVerfity, getScheduleByDoctor);
 // Отобразить заявки только определенных юзеров
 router.post('/arrayDoctors', authVerfity, getScheduleByArrayIdDoctors);
+// Отобразить записи по параметрам
+router.post('/arrayDate', authVerfity, getAllSchedulesByDateTime);
 
 export default router;

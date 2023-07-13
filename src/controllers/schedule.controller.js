@@ -160,6 +160,20 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
     res.status(500).send({ error: error });
   }
 };
+// записи на выбранный день и доктора
+export const getAllSchedulesByDateTime = async (req, res) => {
+  const {
+    doctor = 0,
+    dateTime = '',
+  } = req.body;
+  try {
+    const schedules = await checkedShedule({idDoctor: doctor, dateTime: dateTime });
+    res.status(200).send(schedules);
+
+  } catch (error) {
+     res.status(500).send({ error: error });
+  }
+};
 
 // Создать заявку
 export const createSchedules = async (req, res) => {
@@ -176,7 +190,7 @@ export const createSchedules = async (req, res) => {
   try {
     if (begin && time) {
       const findDoctor = await findUserById(doctor);
-      const findShedule = await checkedShedule({idDoctor: doctor, dateTime: `${begin} ${time}` })
+      const findShedule = await checkedShedule({idDoctor: doctor, dateTime: `${begin} ${time}` }).first();
 
       // проверка на существования доктора
       if (!findDoctor)
