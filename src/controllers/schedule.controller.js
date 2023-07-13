@@ -156,7 +156,7 @@ export const getAllSchedulesByDateTime = async (req, res) => {
   const { doctor = 0, dateTime = '' } = req.body;
   try {
     const date = new Date(dateTime).toISOString().split('T');
-    const dateFrom = `${ date[0] }T${ date[1] }`;
+    const dateFrom = `${ date[0] }T08:00:00.000Z`;
     const dateTo = `${ date[0] }T18:00:00.000Z`;
     
     const schedules = await checkedOnlyDateShedule({
