@@ -1,4 +1,4 @@
-import { getAll, create } from '../models/message.js';
+import { getAll, create, deleteMess } from '../models/message.js';
 
 // Отобразить все роли
 export const getAllMessage = async (_req, res) => {
@@ -22,4 +22,17 @@ export const createMessage = async (req, res) => {
   } catch (error) {
     res.status(500).send({ error: error });
   }
+};
+
+export const deleteMessage = async (req, res) => {
+  try {
+
+    const { id = 0 } = req.params;
+    await deleteMess(id); 
+    res.status(200).send({ status: 'OK' });
+
+  } catch (error) {
+     res.status(500).send(error);
+  }
+
 };
