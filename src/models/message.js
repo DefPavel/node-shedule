@@ -10,7 +10,7 @@ export const create = (message) => {
   return clinicDB('message').insert(message);
 };
 export const getAll = () => {
-  return clinicDB('message').select('id as key', 'name', clinicDB.raw(`DATE_FORMAT(date_crt, '%d.%m.%y') as date_crt`));
+  return clinicDB('message').select('id as key', 'name', clinicDB.raw(`DATE_FORMAT(date_crt, '%d.%m.%Y') as date_crt`));
 };
 
 export const deleteMess = (id) => {

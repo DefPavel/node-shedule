@@ -9,7 +9,6 @@ import {
   checkedShedule,
   checkedOnlyDateShedule,
 } from '../models/schedule.js';
-import { findMessageByDate } from '../models/message.js';
 import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
 // Отобразить все заявки
@@ -43,9 +42,6 @@ export const getAllSchedules = async (_req, res) => {
         });
       }
     }
-    const messageToDate = await findMessageByDate(new Date());
-    allData.push({ message: messageToDate });
-
     res.status(200).send(allData);
   } catch (error) {
     res.status(500).send({ error: error });
@@ -55,9 +51,6 @@ export const getAllSchedules = async (_req, res) => {
 export const getAllSchedulesIsCheckedUser = async (_req, res) => {
   try {
     const allData = [];
-    const messageToDate = await findMessageByDate(
-      new Date().toISOString().split('T')[0]
-    );
     // Берем всех докторов которые выбраны
     const checkedDoctors = await getAllUsersIsChecked();
     if (checkedDoctors.length > 0) {
@@ -83,8 +76,7 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
           doctor_id: iterator.doctor_id,
           color: iterator.color,
           isPhone: iterator.is_phone === 1 ? true : false,
-          isComming: iterator.is_comming === 1 ? true : false,
-          message: messageToDate?.name,
+          isComming: iterator.is_comming === 1 ? true : false
         });
       }
     } else {
@@ -114,7 +106,6 @@ export const getAllSchedulesIsCheckedUser = async (_req, res) => {
             color: iterator.color,
             isPhone: iterator.is_phone === 1 ? true : false,
             isComming: iterator.is_comming === 1 ? true : false,
-            message: messageToDate?.name,
           });
         }
     }
@@ -131,9 +122,6 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
     const { arrayId = [] } = req.body;
     const schedules = await getByDoctors(arrayId);
     const allData = [];
-    const messageToDate = await findMessageByDate(
-      new Date().toISOString().split('T')[0]
-    );
 
     if (schedules.length > 0) {
       for (const iterator of schedules) {
@@ -156,7 +144,6 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
           color: iterator.color,
           isPhone: iterator.is_phone === 1 ? true : false,
           isComming: iterator.is_comming === 1 ? true : false,
-          message: messageToDate?.name,
         });
       }
     }
