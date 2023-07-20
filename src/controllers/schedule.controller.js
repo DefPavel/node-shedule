@@ -8,6 +8,7 @@ import {
   deleteById,
   checkedShedule,
   checkedOnlyDateShedule,
+  getArrayFormat,
 } from '../models/schedule.js';
 import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 
@@ -15,34 +16,8 @@ import { findUserById, getAllUsersIsChecked } from '../models/user.js';
 export const getAllSchedules = async (_req, res) => {
   try {
     const schedules = await getAll();
-    const allData = [];
-
-    if (schedules.length > 0) {
-      for (const iterator of schedules) {
-        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
-
-        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-        allData.push({
-          id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
-          phone: iterator.personPhone,
-          start: new Date(iterator.hire_date),
-          end: new Date(iterator.hire_date),
-          time: time,
-          description: iterator.description,
-          doctor: iterator.userName,
-          doctor_id: iterator.doctor_id,
-          color: iterator.color,
-          isPhone: iterator.is_phone === 1 ? true : false,
-          isComming: iterator.is_comming === 1 ? true : false,
-        });
-      }
-    }
-    res.status(200).send(allData);
+    const arrayFormat = getArrayFormat(schedules);
+    res.status(200).send(arrayFormat);
   } catch (error) {
     res.status(500).send({ error: error });
   }
@@ -50,64 +25,19 @@ export const getAllSchedules = async (_req, res) => {
 // Отобразить все заявки которые выбраны
 export const getAllSchedulesIsCheckedUser = async (_req, res) => {
   try {
-    const allData = [];
+    let allData;
     // Берем всех докторов которые выбраны
     const checkedDoctors = await getAllUsersIsChecked();
     if (checkedDoctors.length > 0) {
-      const sheduleByChecked = await getByDoctors(
+      const scheduleByChecked = await getByDoctors(
         checkedDoctors.map((item) => item.id)
       );
-      for (const iterator of sheduleByChecked) {
-        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
-        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-        allData.push({
-          id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
-          phone: iterator.personPhone,
-          start: new Date(iterator.hire_date),
-          end: new Date(iterator.hire_date),
-          time: time,
-          description: iterator.description,
-          doctor: iterator.userName,
-          doctor_id: iterator.doctor_id,
-          color: iterator.color,
-          isPhone: iterator.is_phone === 1 ? true : false,
-          isComming: iterator.is_comming === 1 ? true : false
-        });
-      }
+      allData = getArrayFormat(scheduleByChecked);
+
     } else {
       // Вернуть все записи
       const schedules = await getAll();
-      if (schedules.length > 0)
-        for (const iterator of schedules) {
-          const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-          const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
-          const time = new Date(iterator.hire_date).toLocaleTimeString(
-            'ru-RU',
-            {
-              hour: '2-digit',
-              minute: '2-digit',
-            }
-          );
-          allData.push({
-            id: iterator.id,
-            title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
-            phone: iterator.personPhone,
-            start: new Date(iterator.hire_date),
-            end: new Date(iterator.hire_date),
-            time: time,
-            description: iterator.description,
-            doctor: iterator.userName,
-            doctor_id: iterator.doctor_id,
-            color: iterator.color,
-            isPhone: iterator.is_phone === 1 ? true : false,
-            isComming: iterator.is_comming === 1 ? true : false,
-          });
-        }
+      allData = getArrayFormat(schedules);
     }
     res.status(200).send(allData);
   } catch (error) {
@@ -121,33 +51,8 @@ export const getScheduleByArrayIdDoctors = async (req, res) => {
   try {
     const { arrayId = [] } = req.body;
     const schedules = await getByDoctors(arrayId);
-    const allData = [];
-
-    if (schedules.length > 0) {
-      for (const iterator of schedules) {
-        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
-        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-        allData.push({
-          id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
-          phone: iterator.personPhone,
-          start: new Date(iterator.hire_date),
-          end: new Date(iterator.hire_date),
-          time: time,
-          description: iterator.description,
-          doctor: iterator.userName,
-          doctor_id: iterator.doctor_id,
-          color: iterator.color,
-          isPhone: iterator.is_phone === 1 ? true : false,
-          isComming: iterator.is_comming === 1 ? true : false,
-        });
-      }
-    }
-    res.status(200).send(allData);
+    const arrayFormat = getArrayFormat(schedules);
+    res.status(200).send(arrayFormat);
   } catch (error) {
     res.status(500).send({ error: error });
   }
@@ -186,7 +91,7 @@ export const createSchedules = async (req, res) => {
   try {
     if (begin && time) {
       const findDoctor = await findUserById(doctor);
-      const findShedule = await checkedShedule({
+      const findSchedule = await checkedShedule({
         idDoctor: doctor,
         dateTime: `${begin} ${time}`,
       }).first();
@@ -195,7 +100,7 @@ export const createSchedules = async (req, res) => {
       if (!findDoctor)
         return res.status(500).send({ error: 'Доктор не найден!' });
       // проверка на существование записи
-      if (findShedule)
+      if (findSchedule)
         return res
           .status(500)
           .send({ error: 'Запись на данное время уже есть!' });
@@ -206,8 +111,8 @@ export const createSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description.trim(),
-        is_phone: isPhone === 'true' ? 1 : 0,
-        is_comming: isComming === 'true' ? 1 : 0,
+        is_phone: 'true' === isPhone ? 1 : 0,
+        is_comming: 'true' === isComming ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
@@ -244,8 +149,8 @@ export const updateSchedules = async (req, res) => {
         phone: phone,
         doctor_id: findDoctor.id,
         description: description.trim(),
-        is_phone: isPhone === 'true' ? 1 : 0,
-        is_comming: isComming === 'true' ? 1 : 0,
+        is_phone: 'true' === isPhone ? 1 : 0,
+        is_comming: 'true' === isComming ? 1 : 0,
       });
     } else return res.status(500).send({ error: 'Не указана дата или время' });
 
@@ -260,35 +165,10 @@ export const updateSchedules = async (req, res) => {
 export const getScheduleByDoctor = async (req, res) => {
   const { idDoctor: id } = req.params;
   try {
-    if (!id) throw 'ID пользователя не указан!';
+    if (!id) return res.status(500).send({ error: 'ID пользователя не указан!' });
     const schedules = await getByDoctor(id);
-    const allData = [];
-
-    if (schedules.length > 0) {
-      for (const iterator of schedules) {
-        const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
-        const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
-        const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-        allData.push({
-          id: iterator.id,
-          title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
-          phone: iterator.personPhone,
-          start: new Date(iterator.hire_date),
-          end: new Date(iterator.hire_date),
-          time: time,
-          description: iterator.description,
-          doctor: iterator.userName,
-          doctor_id: iterator.doctor_id,
-          color: iterator.color,
-          isPhone: iterator.is_phone,
-          isComming: iterator.is_comming,
-        });
-      }
-    }
-    res.status(200).send(allData);
+    const arrayFormat = getArrayFormat(schedules);
+    res.status(200).send(arrayFormat);
   } catch (error) {
     res.status(500).send({ error: error });
   }
@@ -298,11 +178,11 @@ export const getScheduleByDoctor = async (req, res) => {
 export const dropSheduleById = async (req, res) => {
   try {
     const { id = 0 } = req.params;
-    const findShedule = await getById(id);
+    const findSchedule = await getById(id);
 
-    if (!findShedule)
+    if (!findSchedule)
       return res.status(500).send({ error: 'Не найдена запись' });
-    await deleteById(findShedule.id);
+    await deleteById(findSchedule.id);
     res.status(200).send({ status: 'drop schedule' });
   } catch (error) {
     res.status(500).send({ error: error });

@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import { getAllMessage, createMessage, deleteMessage, getMessageToDay } from '../../controllers/message.controller.js';
-import authVerfity from '../../middleware/authVerfity.js';
+import authVerity from '../../middleware/authVerfity.js';
 
 const router = Router();
 
 // Создать новую сообщение
-router.post('/create', authVerfity, createMessage);
+router.post('/create', authVerity, createMessage);
 // Отобразить все сообщения
-router.get('/get', authVerfity, getAllMessage);
+router.get('/get', authVerity, getAllMessage);
 // вернуть сообщение на сегодня
-router.get('/today', authVerfity, getMessageToDay);
+router.get('/today', authVerity, getMessageToDay);
 // Удалить сообщение
-router.delete('/del/:id', authVerfity, deleteMessage);
+router.delete('/del/:id', authVerity, deleteMessage);
 
 export default router;

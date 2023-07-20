@@ -1,5 +1,34 @@
 import clinicDB from '../config/database.js';
 
+export const getArrayFormat = (schedules) => {
+  const allData = [];
+  if (schedules.length > 0) {
+    for (const iterator of schedules) {
+      const isPhone = `${iterator.is_phone === 1 ? '✅' : '❌'}`;
+      const isComming = `${iterator.is_comming === 1 ? '✅' : '❌'}`;
+
+      const time = new Date(iterator.hire_date).toLocaleTimeString('ru-RU', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      allData.push({
+        id: iterator.id,
+        title: `${iterator.userName}; ${iterator.personName}; ${iterator.description}; ${isPhone} ${isComming}`,
+        phone: iterator.personPhone,
+        start: new Date(iterator.hire_date),
+        end: new Date(iterator.hire_date),
+        time: time,
+        description: iterator.description,
+        doctor: iterator.userName,
+        doctor_id: iterator.doctor_id,
+        color: iterator.color,
+        isPhone: iterator.is_phone === 1,
+        isComming: iterator.is_comming === 1,
+      });
+    }
+  }
+  return allData;
+};
 export const getAll = () => {
   return clinicDB
     .select(
